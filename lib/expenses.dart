@@ -1,3 +1,4 @@
+import 'package:flow_fin/widgets/expenses_list/expenses_list.dart';
 import 'package:flow_fin/models/expense.dart';
 import 'package:flutter/material.dart';
 
@@ -21,9 +22,9 @@ class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Column(
-      children: const [
-        Text('Ini Chart'),  
-        Text('Expenses List...')
+      children: [
+        Text('Ini Chart'),
+        Expanded(child: ExpensesList(expenses: _registeredExpenses)),
       ],
     ),);
   }
