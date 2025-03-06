@@ -1,3 +1,4 @@
+import 'package:flow_fin/widgets/chart/chart.dart';
 import 'package:flow_fin/widgets/expenses_list/expenses_list.dart';
 import 'package:flow_fin/models/expense.dart';
 import 'package:flow_fin/widgets/new_expense.dart';
@@ -16,25 +17,25 @@ class _ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [
     Expense(
       title: 'Nasi Goreng',
-      amount: 10,
+      amount: 10000,
       date: DateTime.now(),
       category: Category.food,
     ),
     Expense(
       title: 'Bus',
-      amount: 20,
+      amount: 5000,
       date: DateTime.now(),
       category: Category.transport,
     ),
     Expense(
       title: 'Kebutuhan Bulanan',
-      amount: 30,
+      amount: 20000,
       date: DateTime.now(),
       category: Category.shopping,
     ),
     Expense(
       title: 'Bali',
-      amount: 40,
+      amount: 30000,
       date: DateTime.now(),
       category: Category.travel,
     ),
@@ -62,11 +63,14 @@ class _ExpensesState extends State<Expenses> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        action: SnackBarAction(label: 'Undo', onPressed: () {
-          setState(() {
-            _registeredExpenses.insert(expenseIndex, expense);
-          });
-        }),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(expenseIndex, expense);
+            });
+          },
+        ),
         duration: const Duration(seconds: 3),
         content: const Text('Expense deleted'),
       ),
@@ -96,7 +100,12 @@ class _ExpensesState extends State<Expenses> {
           ),
         ],
       ),
-      body: Column(children: [Text('Ini Chart'), Expanded(child: mainContent)]),
+      body: Column(
+        children: [
+          Chart(expenses: _registeredExpenses),
+          Expanded(child: mainContent),
+        ],
+      ),
     );
   }
 }
