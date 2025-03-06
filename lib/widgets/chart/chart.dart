@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flow_fin/widgets/chart/chart_bar.dart';
 import 'package:flow_fin/models/expense.dart';
 
@@ -33,20 +32,18 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 8,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       width: double.infinity,
-      height: 180,
+      height: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: [
             Theme.of(context).colorScheme.primary.withOpacity(0.3),
-            Theme.of(context).colorScheme.primary.withOpacity(0.0)
+            Theme.of(context).colorScheme.primary.withOpacity(0.0),
           ],
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
@@ -60,34 +57,49 @@ class Chart extends StatelessWidget {
               children: [
                 for (final bucket in buckets)
                   ChartBar(
-                    fill: bucket.totalExpenses == 0
-                        ? 0
-                        : bucket.totalExpenses / maxTotalExpense,
-                  )
+                    fill:
+                        bucket.totalExpenses == 0
+                            ? 0
+                            : bucket.totalExpenses / maxTotalExpense,
+                  ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           Row(
-            children: buckets
-                .map(
-                  (bucket) => Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Icon(
-                        categoryIcons[bucket.category],
-                        color: isDarkMode
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.7),
+            children:
+                buckets
+                    .map(
+                      (bucket) => Expanded(
+                        child: Column(
+                          children: [
+                            Icon(
+                              categoryIcons[bucket.category],
+                              color:
+                                  isDarkMode
+                                      ? Theme.of(context).colorScheme.secondary
+                                      : Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Rp.${bucket.totalExpenses.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    isDarkMode
+                                        ? Theme.of(
+                                          context,
+                                        ).colorScheme.secondary
+                                        : Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                )
-                .toList(),
-          )
+                    )
+                    .toList(),
+          ),
         ],
       ),
     );
